@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.chetanpatil.fullStack_backend.mapper.UserMapper">
+
+
+    <resultMap id="UserDtoMap" type="com.chetanpatil.fullStack_backend.dto.UserDto">
+        <id column="id" property="id"/>
+        <result column="user_name" property="userName"/>
+        <result column="name" property="name"/>
+        <result column="email" property="email"/>
+        <result column="regDate" property="regDate" />
+    </resultMap>
+
+    <insert id="insertUser" parameterType="com.chetanpatil.fullStack_backend.dto.UserDto" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO user (user_name,
+        name,
+        email,
+        regDate)
+        VALUES (#{userName},
+        #{name},
+        #{email},
+        SYSDATE())
+    </insert>
+    <select id="getUserById" resultMap="UserDtoMap">
+        SELECT * FROM user WHERE id = #{id}
+    </select>
+
+    <select id="getAllUsers" resultMap="UserDtoMap">
+        SELECT id, name, email, user_name, regDate FROM user
+    </select>
+
+    <select id="countByUserName" resultType="int">
+        SELECT COUNT(*) FROM user WHERE user_name = #{userName}
+    </select>
+
+    <update id="updateUser">
+        UPDATE user
+        SET user_name = #{userName},
+        name = #{name},
+        email = #{email}
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteUser">
+        DELETE FROM user WHERE id = #{id}
+    </delete>
+
+</mapper>
+
